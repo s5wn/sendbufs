@@ -2,6 +2,9 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
+local remotes = require("@shared/sendbufs/remotes")
+local read_iter = require("./read-iter")
+local read = require("./read")
 local buffer_writer = require("./buffer-writer")
 
 local alloc = buffer_writer.alloc
@@ -49,6 +52,8 @@ function send_unreliable_packet(
 	players_unreliable[to] = buf
 end
 
+
+
 @native
 function start()
 	local reliable = Instance.new("RemoteEvent")
@@ -57,6 +62,32 @@ function start()
 	unreliable.Name = ".unreliable"
 	local remote_fn = Instance.new("RemoteFunction")
 	remote_fn.Name = ".remote_fn"
+
+	remote_fn.OnServerInvoke = function(plr,b,ref)
+		for nid,val in read_iter("schema", b) do
+			if (remotes[nid]==nil or remotes[nid].kind~="function") then
+				return false,0;
+			end
+			local success,res = pcall(remotes[nid].callback,val,plr);
+			if (not success) then 
+				warn(res)
+				return false,1 
+			end;
+			local buf = create_super();
+			remotes[nid].schema_out.write(buf,res);
+			local r,refs = dump(buf)
+			return true,r,refs;
+
+		end
+		return false,2;
+	end
+
+	reliable.OnServerEvent:Connect(function(plr: Player, b, r)
+		read(b, r, plr)
+	end)
+	unreliable.OnServerEvent:Connect(function(plr: Player, b, r)
+		read(b, r, plr)
+	end)
 
 	reliable.Parent = ReplicatedStorage
 	unreliable.Parent = ReplicatedStorage

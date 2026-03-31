@@ -2,13 +2,18 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
+local read_iter = require("./read-iter")
 local buffer_writer = require("./buffer-writer")
 
 local alloc = buffer_writer.alloc
 local u8 = buffer_writer.u8
+local u16 = buffer_writer.u16
 
 local dump = require("./dump")
 local read = require("./read")
+
+	
+
 
 @native
 function create_super(): buffer_writer.buffer_writer
@@ -25,27 +30,48 @@ local payload_unreliable = create_super()
 
 @native
 function send_reliable_packet(id: number, writer: (buf: buffer_writer.buffer_writer, data: any) -> (), data: any)
-	alloc(payload_reliable, 2)
+	alloc(payload_reliable, 1)
 	u8(payload_reliable, id)
 	writer(payload_reliable, data)
 end
 @native
 function send_unreliable_packet(id: number, writer: (buf: buffer_writer.buffer_writer, data: any) -> (), data: any)
-	alloc(payload_unreliable, 2)
+	alloc(payload_unreliable, 1)
 	u8(payload_unreliable, id)
 	writer(payload_unreliable, data)
 end
 
+
+@native
+function invoke_request(id: number, writer: (buf: buffer_writer.buffer_writer, data: any) -> (),reader: (buf: buffer_writer.buffer_writer, cursor:number) -> any, data: any): (boolean,any)
+	
+
+	local buf = create_super();
+
+	alloc(buf, 1)
+	u8(buf, id)
+	writer(buf, data)
+
+	local remote_fn: RemoteFunction = ReplicatedStorage:WaitForChild(".remote_fn", math.huge);
+		local success,nbuf,refs = remote_fn:InvokeServer(dump(buf));
+		if (success) then
+			local bc = buffer_writer.from(nbuf);
+			bc.references = refs;
+			return true,reader(bc, 0)
+		end
+
+		return false;
+end
+
 @native
 function start()
-	print("INIT CLINET")
+
 	local reliable: RemoteEvent = ReplicatedStorage:WaitForChild(".reliable", math.huge)
 	reliable.OnClientEvent:Connect(read)
 	local unreliable: UnreliableRemoteEvent = ReplicatedStorage:WaitForChild(".unreliable", math.huge)
 	unreliable.OnClientEvent:Connect(read)
-	local remote_fn: RemoteFunction = ReplicatedStorage:WaitForChild(".remote_fn", math.huge)
+	
 
-	print("here")
 
 	RunService.Heartbeat:Connect(function()
 		if payload_reliable.cursor > 0 then
@@ -67,4 +93,5 @@ return {
 	start = start,
 	send_reliable_packet = send_reliable_packet,
 	send_unreliable_packet = send_unreliable_packet,
+	invoke_request=invoke_request,
 }

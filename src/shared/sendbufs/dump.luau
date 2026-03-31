@@ -1,6 +1,5 @@
 local buffer_writer = require("./buffer-writer")
 return @native function(b: buffer_writer.buffer_writer): (buffer, { unknown }?)
-	warn(b, "DUMPING")
 	local cursor = b.cursor
 	local dumpBuffer = buffer.create(cursor)
 	buffer.copy(dumpBuffer, 0, b.buff, 0, cursor)
