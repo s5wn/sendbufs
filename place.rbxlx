@@ -1139,19 +1139,7 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400000383</UniqueId>
 		</Properties>
-		<Item class="Folder" referent="1">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<string name="Name">Packages</string>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000039b</UniqueId>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX174c8ef1fb944be287a7e8d5a48eb01d">
+		<Item class="Folder" referent="RBX0891adf4ccf04d15902ef68198739748">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1160,116 +1148,9 @@ gcLgc4RKxr21zq2UlJSM]]></BinaryString>
 				<string name="Name">Shared</string>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000221c</UniqueId>
+				<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b63</UniqueId>
 			</Properties>
-			<Item class="Folder" referent="RBX8dd84a2ebd59418199e6ece54a96d9ec">
-				<Properties>
-					<BinaryString name="AttributesSerialize"></BinaryString>
-					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="DefinesCapabilities">false</bool>
-					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-					<string name="Name">RM_LATER_network_test</string>
-					<int64 name="SourceAssetId">-1</int64>
-					<BinaryString name="Tags"></BinaryString>
-					<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000221e</UniqueId>
-				</Properties>
-				<Item class="ModuleScript" referent="RBXbd377d12afcb45768161c58f4bfc19e9">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<ProtectedString name="Source"><![CDATA[local sendbufs = require(script.Parent.Parent:WaitForChild('sendbufs'))
-
-return {
-    test = sendbufs.create_event(sendbufs.schema.ARRAY(sendbufs.schema.STRUCT({
-        name = sendbufs.schema.REF,
-        age = sendbufs.schema.U8,
-        random_numbers = sendbufs.schema.ARRAY(sendbufs.schema.U8),
-        maybe = sendbufs.schema.OPTIONAL(sendbufs.schema.BOOL),
-    }))),
-}
-]]></ProtectedString>
-						<string name="ScriptGuid">{7652d541-25de-4f1e-977b-1a91373d02f9}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">network.objs</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000221f</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="Script" referent="RBX4845e4454b694a5081576ba6445e7eff">
-					<Properties>
-						<ProtectedString name="Source"><![CDATA[local network_objs = require(script.Parent:WaitForChild('network.objs'))
-local d = network_objs.test:connect_client(function(data)
-    print(data, 'rec client')
-end)
-
-while task.wait(1) do
-    network_objs.test:fire_server({
-        {
-            name = 'mister bist',
-            age = 2222,
-            random_numbers = {23, 2},
-            maybe = if math.random(0, 1) == 1 then true else nil,
-        },
-    })
-end
-]]></ProtectedString>
-						<bool name="Disabled">false</bool>
-						<Content name="LinkedSource"><null></null></Content>
-						<token name="RunContext">2</token>
-						<string name="ScriptGuid">{6abfa3fa-00f4-4f89-a605-3be8eb91f0a3}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">network.test</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002220</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="Script" referent="RBX2dbdaca667a148849bf4a20fd4d9c4f6">
-					<Properties>
-						<ProtectedString name="Source"><![CDATA[local network_objs = require(script.Parent:WaitForChild('network.objs'))
-local d = network_objs.test:connect_server(function(plr, data)
-    print(data, 'rec server')
-end)
-
-while task.wait(1) do
-    network_objs.test:fire_all({
-        {
-            name = 'Joshanathasian',
-            age = 21,
-            random_numbers = {
-                12,
-                2,
-                4,
-                12,
-                4,
-            },
-            maybe = if math.random(0, 1) == 1 then true else nil,
-        },
-    })
-end
-]]></ProtectedString>
-						<bool name="Disabled">false</bool>
-						<Content name="LinkedSource"><null></null></Content>
-						<token name="RunContext">1</token>
-						<string name="ScriptGuid">{76aa65c7-b106-455d-abf2-156b509ae9d1}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">network.test</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002221</UniqueId>
-					</Properties>
-				</Item>
-			</Item>
-			<Item class="ModuleScript" referent="RBXb72f3ebdce2e42939bb7d7b0fca3e27d">
+			<Item class="ModuleScript" referent="RBX89dacc4cca5d43c191533cb63ae001ce">
 				<Properties>
 					<Content name="LinkedSource"><null></null></Content>
 					<ProtectedString name="Source"><![CDATA[local Players = game:GetService('Players')
@@ -1279,7 +1160,8 @@ local is_server = RunService:IsServer()
 local server = require(script:WaitForChild('server-lifecycle'))
 local client = require(script:WaitForChild('client-lifecycle'))
 local remotes = require(script:WaitForChild('remotes'))
-local types = require(script:WaitForChild('types'))
+local metatables = require(script:WaitForChild('metatables'))
+local constants = require(script:WaitForChild('constants'))
 
 do
     local globalid = 0
@@ -1296,100 +1178,32 @@ do
     end
 end
 
-local EVENT_TYPE = table.freeze({
-    RELIABLE = 0,
-    UNRELIABLE = 1,
-})
-local event_mt = {}
-
-event_mt.__index = event_mt
-
-local fn_mt = {}
-
-fn_mt.__index = fn_mt
-
-function to_player_table(t: Player | {Player}): {Player}
-    if typeof(t) == 'table' then
-        return t
-    end
-
-    return {t}
-end
-
-do
-    function event_mt.fire_client(self: types.t_event<any>, plr: Player | {Player}, ...): ()
-        local plr = to_player_table(plr)
-        local write_fn = self.schema.write
-        local fn = if self.type == EVENT_TYPE.RELIABLE then server.send_reliable_packet else server.send_reliable_packet
-
-        for _, plr in plr do
-            (fn::never)(plr, self.id, write_fn, ...)
-        end
-    end
-    function event_mt.fire_server(self: types.t_event<any>, ...)
-        local write_fn = self.schema.write
-        local fn = if self.type == EVENT_TYPE.RELIABLE then client.send_reliable_packet else client.send_unreliable_packet;
-
-        (fn::never)(self.id, write_fn, ...)
-    end
-    function event_mt.fire_all(self: types.t_event<any>, ...)
-        local plrs = Players:GetPlayers()
-        local write_fn = self.schema.write
-        local fn = if self.type == EVENT_TYPE.RELIABLE then server.send_reliable_packet else server.send_unreliable_packet
-
-        for _, plr in plrs do
-            (fn::never)(plr, self.id, write_fn, ...)
-        end
-    end
-    function connect_listener(listeners: {types.fn_listener}, fn: (...any) -> ())
-        table.insert(listeners, fn)
-
-        return function()
-            local i = table.find(listeners, fn)
-
-            if i ~= nil then
-                table.remove(listeners, i)
-            end
-        end
-    end
-    function event_mt.connect_client(self: types.t_event<any>, cb: () -> ())
-        return connect_listener(self.listeners, cb)
-    end
-
-    event_mt.connect_server = event_mt.connect_client
-
-    table.freeze(event_mt)
-end
-do
-    function fn_mt.set_callback<T>(self: types.t_fn<any>, cb: (plr:Player, ...any) -> ...any) end
-    function fn_mt.invoke<T>(self: types.t_fn<any>, ...) end
-
-    table.freeze(fn_mt)
-end
-
-function create_event<T>(t: T): types.t_event<T>
+function create_event<T>(t: T): metatables.t_event<T>
     return add(setmetatable({
+        kind = 'event',
         listeners = {},
         schema = t,
-        type = EVENT_TYPE.RELIABLE,
+        type = constants.EVENT_TYPE.RELIABLE,
         id = take_next(),
-    }, event_mt)::never)
+    }, if is_server then metatables.server_remote_metatable else metatables.client_remote_metatable))::never
 end
-function create_unreliable<T>(t: T): types.t_event<T>
+function create_unreliable<T>(t: T): metatables.t_event<T>
     return add(setmetatable({
+        kind = 'event',
         listeners = {},
         schema = t,
-        type = EVENT_TYPE.UNRELIABLE,
+        type = constants.EVENT_TYPE.UNRELIABLE,
         id = take_next(),
-    }, event_mt)::never)
+    }, if is_server then metatables.server_remote_metatable else metatables.client_remote_metatable)::never)
 end
-function create_query<T, R...>(input: T, ...: R...): types.t_fn<T, R...>
+function create_request<T, R>(input: T, output: R): metatables.t_fn<T, R>
     return add(setmetatable({
-        listeners = {},
+        callback = nil,
+        kind = 'function',
         schema = input,
-        schema_out = select(1, ...)::{any},
+        schema_out = output,
         id = take_next(),
-    }, {})::never)
+    }, if is_server then metatables.server_function_metatable else metatables.client_function_metatable)::never)
 end
 
 if is_server then
@@ -1401,11 +1215,11 @@ end
 return table.freeze({
     create_event = create_event,
     create_unreliable = create_unreliable,
-    create_query = create_query,
+    create_request = create_request,
     schema = serdes,
 })
 ]]></ProtectedString>
-					<string name="ScriptGuid">{95f19777-50d6-4ad8-ac95-96100af65bb8}</string>
+					<string name="ScriptGuid">{45c8b5ea-e65d-49ee-a92b-5cc713fb2848}</string>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
@@ -1413,168 +1227,19 @@ return table.freeze({
 					<string name="Name">sendbufs</string>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
-					<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002222</UniqueId>
+					<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b64</UniqueId>
 				</Properties>
-				<Item class="ModuleScript" referent="RBX84675b9604e4454c82e8cc5c7d2682ea">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<ProtectedString name="Source"><![CDATA[export type buffer_writer = {size: number, cursor: number, references: {unknown}, buff: buffer}
-
-function create(): buffer_writer
-    return {
-        size = 12,
-        references = {},
-        buff = buffer.create(12),
-        cursor = 0,
-    }
-end
-function from(b: buffer)
-    local len = buffer.len(b)
-    local nb: buffer_writer = {
-        buff = buffer.create(len),
-        size = len,
-        cursor = 0,
-        references = {},
-    }
-
-    buffer.copy(nb.buff, 0, b)
-
-    return nb
-end
-function alloc(buf: buffer_writer, bytes: number)
-    if not (buf.cursor + bytes >= buf.size) then
-        return
-    end
-
-    buf.size = math.floor(buf.size * 1.5)
-
-    local newBuffer = buffer.create(buf.size)
-
-    buffer.copy(newBuffer, 0, buf.buff)
-
-    buf.buff = newBuffer
-end
-function dyn_alloc(buf: buffer_writer, bytes: number)
-    while buf.cursor + bytes > buf.size do
-        buf.size = math.floor(buf.size * 1.5)
-    end
-
-    local newBuffer = buffer.create(buf.size)
-
-    buffer.copy(newBuffer, 0, buf.buff)
-
-    buf.buff = newBuffer
-end
-function u8(buf: buffer_writer, value: number)
-    buffer.writeu8(buf.buff, buf.cursor, value)
-
-    buf.cursor += 1
-end
-function i8(buf: buffer_writer, value: number)
-    buffer.writei8(buf.buff, buf.cursor, value)
-
-    buf.cursor += 1
-end
-function reference(buf: buffer_writer, value: any)
-    table.insert(buf.references, value)
-
-    local index = #buf.references
-
-    buffer.writeu8(buf.buff, buf.cursor, index)
-
-    buf.cursor += 1
-end
-function u16(buf: buffer_writer, value: number)
-    buffer.writeu16(buf.buff, buf.cursor, value)
-
-    buf.cursor += 2
-end
-function i16(buf: buffer_writer, value: number)
-    buffer.writeu16(buf.buff, buf.cursor, value)
-
-    buf.cursor += 2
-end
-function u32(buf: buffer_writer, value: number)
-    buffer.writeu32(buf.buff, buf.cursor, value)
-
-    buf.cursor += 4
-end
-function writestring(buf: buffer_writer, value: string)
-    buffer.writestring(buf.buff, buf.cursor, value)
-
-    buf.cursor += string.len(value)
-end
-function i32(buf: buffer_writer, value: number)
-    buffer.writei32(buf.buff, buf.cursor, value)
-
-    buf.cursor += 4
-end
-function f32(buf: buffer_writer, value: number)
-    buffer.writef32(buf.buff, buf.cursor, value)
-
-    buf.cursor += 4
-end
-function f64(buf: buffer_writer, value: number)
-    buffer.writef64(buf.buff, buf.cursor, value)
-
-    buf.cursor += 8
-end
-function copy(buf: buffer_writer, value)
-    buffer.copy(buf.buff, buf.cursor, value)
-
-    buf.cursor += buffer.len(value)
-end
-function btrue(buf: buffer_writer)
-    buffer.writeu8(buf.buff, buf.cursor, 1)
-
-    buf.cursor += 1
-end
-function bfalse(buf: buffer_writer)
-    buffer.writeu8(buf.buff, buf.cursor, 0)
-
-    buf.cursor += 1
-end
-
-return table.freeze({
-    create = create,
-    alloc = alloc,
-    u8 = u8,
-    i8 = i8,
-    u16 = u16,
-    i16 = i16,
-    u32 = u32,
-    i32 = i32,
-    f32 = f32,
-    f64 = f64,
-    copy = copy,
-    btrue = btrue,
-    bfalse = bfalse,
-    reference = reference,
-    writestring = writestring,
-    dyn_alloc = dyn_alloc,
-    from = from,
-})
-]]></ProtectedString>
-						<string name="ScriptGuid">{1ca6ad5a-9fe7-4d65-8305-e37da44c11ed}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">buffer-writer</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002223</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBXa21a22776a4f4cf3bfd2890287ff2cc7">
+				<Item class="ModuleScript" referent="RBX81bdb377e52c4353b5f13411724432a8">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<ProtectedString name="Source"><![CDATA[local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService('RunService')
+local read_iter = require(script.Parent:WaitForChild('read-iter'))
 local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
 local alloc = buffer_writer.alloc
 local u8 = buffer_writer.u8
+local u16 = buffer_writer.u16
 local dump = require(script.Parent:WaitForChild('dump'))
 local read = require(script.Parent:WaitForChild('read'))
 
@@ -1593,15 +1258,41 @@ local payload_unreliable = create_super()
 
 @native
 function send_reliable_packet(id: number, writer: (buf:buffer_writer.buffer_writer, data:any) -> (), data: any)
-    alloc(payload_reliable, 2)
+    alloc(payload_reliable, 1)
     u8(payload_reliable, id)
     writer(payload_reliable, data)
 end
 @native
 function send_unreliable_packet(id: number, writer: (buf:buffer_writer.buffer_writer, data:any) -> (), data: any)
-    alloc(payload_unreliable, 2)
+    alloc(payload_unreliable, 1)
     u8(payload_unreliable, id)
     writer(payload_unreliable, data)
+end
+@native
+function invoke_request(
+    id: number,
+    writer: (buf:buffer_writer.buffer_writer, data:any) -> (),
+    reader: (buf:buffer_writer.buffer_writer, cursor:number) -> any,
+    data: any
+): (boolean,any)
+    local buf = create_super()
+
+    alloc(buf, 1)
+    u8(buf, id)
+    writer(buf, data)
+
+    local remote_fn: RemoteFunction = ReplicatedStorage:WaitForChild('.remote_fn', math.huge)
+    local success, nbuf, refs = remote_fn:InvokeServer(dump(buf))
+
+    if (success) then
+        local bc = buffer_writer.from(nbuf)
+
+        bc.references = refs
+
+        return true, reader(bc, 0)
+    end
+
+    return false
 end
 @native
 function start()
@@ -1612,9 +1303,6 @@ function start()
     local unreliable: UnreliableRemoteEvent = ReplicatedStorage:WaitForChild('.unreliable', math.huge)
 
     unreliable.OnClientEvent:Connect(read)
-
-    local remote_fn: RemoteFunction = ReplicatedStorage:WaitForChild('.remote_fn', math.huge)
-
     RunService.Heartbeat:Connect(function()
         if payload_reliable.cursor > 0 then
             local dump, refs = dump(payload_reliable)
@@ -1641,9 +1329,10 @@ return {
     start = start,
     send_reliable_packet = send_reliable_packet,
     send_unreliable_packet = send_unreliable_packet,
+    invoke_request = invoke_request,
 }
 ]]></ProtectedString>
-						<string name="ScriptGuid">{cc970d2c-ddfa-4b7e-81be-df1089a907e0}</string>
+						<string name="ScriptGuid">{564ee333-7891-43d2-9e8a-1ad8a295fbe8}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -1651,36 +1340,10 @@ return {
 						<string name="Name">client-lifecycle</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002224</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b65</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXfd96f351f39c46d89e147e9bd914491e">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<ProtectedString name="Source"><![CDATA[local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
-
-return @native
-function(b: buffer_writer.buffer_writer): (buffer,{unknown}?)
-    local cursor = b.cursor
-    local dumpBuffer = buffer.create(cursor)
-
-    buffer.copy(dumpBuffer, 0, b.buff, 0, cursor)
-
-    return dumpBuffer, if#b.references > 0 then b.references else nil
-end
-]]></ProtectedString>
-						<string name="ScriptGuid">{0bb41b52-7056-446d-93de-27f5fc9b4d9a}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">dump</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002225</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBXda1f5e2baad34caba4500f8a7807f744">
+				<Item class="ModuleScript" referent="RBX901a8645801a4ed1abdf4b93a8197396">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<ProtectedString name="Source"><![CDATA[local types = require(script.Parent:WaitForChild('types'))
@@ -1689,11 +1352,18 @@ return function(listeners: {types.fn_listener}, ...)
     local s = #listeners
 
     for i = 1, s do
-        task.defer(listeners[i], ...)
+        local r = listeners[i]
+
+        if (r.once) then
+            table.remove(listeners, i)
+        end
+
+        warn(r.fn, 'exists')
+        task.defer(r.fn, ...)
     end
 end
 ]]></ProtectedString>
-						<string name="ScriptGuid">{c57bd518-2342-42b0-95f9-1669b072c409}</string>
+						<string name="ScriptGuid">{0262e178-fdb7-406d-9278-acb6d820f1dc}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -1701,13 +1371,210 @@ end
 						<string name="Name">fire-listeners</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002226</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b66</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXf16240e0311a49ed8b0d448d82d5ce0f">
+				<Item class="ModuleScript" referent="RBXdfdca4e64f9045bebadd10963f604f5f">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[local Players = game:GetService('Players')
+local RunService = game:GetService('RunService')
+local client_lifecycle = require(script.Parent:WaitForChild('client-lifecycle'))
+local server_lifecycle = require(script.Parent:WaitForChild('server-lifecycle'))
+local types = require(script.Parent:WaitForChild('types'))
+local serdes = require(script.Parent:WaitForChild('serdes'))
+local constants = require(script.Parent:WaitForChild('constants'))
+local client_remote_metatable = {}
+
+client_remote_metatable.__index = client_remote_metatable
+
+local server_remote_metatable = {}
+
+server_remote_metatable.__index = server_remote_metatable
+
+local server_function_metatable = {}
+
+server_function_metatable.__index = server_function_metatable
+
+local client_function_metatable = {}
+
+client_function_metatable.__index = client_function_metatable
+
+type event_comb_mt<T> = {__index: event_comb_mt<T>, connect: (self:t_event<T>, callback:(T, plr:Player?) -> (), once:boolean?) -> () -> (), wait: () -> T, fire_client: (self:t_event<T>, plr:Player | {Player}, arg:T) -> (), fire_all: (self:t_event<T>, arg:T) -> (), fire_server: (self:t_event<T>, arg:T) -> ()}
+type fn_comb_mt<T, R> = {__index: fn_comb_mt<T, R>, invoke: (self:t_fn<T, R>, input:T) -> (boolean,R), set_callback: (self:t_fn<T, R>, cb:(T, plr:Player) -> R) -> ()}
+export type t_event<T> = typeof(setmetatable({}::{kind: 'event', listeners: {types.fn_listener}, schema: serdes.serdes_data<T>, type: number, id: number}, ((RunService.IsServer() and server_remote_metatable or client_remote_metatable)::never)::event_comb_mt<T>))
+export type t_fn<T, R> = typeof(setmetatable({}::{kind: 'function', callback: ((arg:T, plr:Player?) -> R)?, schema: serdes.serdes_data<T>, schema_out: serdes.serdes_data<{any}>, id: number}, ((RunService.IsServer() and server_function_metatable or client_function_metatable)::never)::fn_comb_mt<T, R>))
+
+function connect_listener(listeners: {types.fn_listener}, fn: (...any) -> (), once: boolean?)
+    local t = {
+        fn = fn,
+        once = once,
+    }
+
+    table.insert(listeners, t)
+
+    return function()
+        local i = table.find(listeners, t)
+
+        if i ~= nil then
+            table.remove(listeners, i)
+        end
+    end
+end
+function wait<T>(self: t_event<T>): T
+    local coro = coroutine.running()
+
+    connect_listener(self.listeners, function(...)
+        task.defer(coro, ...)
+    end, true)
+    coroutine.yield()
+
+    return nil::never
+end
+function connect<T>(self: t_event<T>, callback: (T) -> (), once: boolean?)
+    return connect_listener(self.listeners, callback, once)
+end
+function to_player_table(t: Player | {Player}): {Player}
+    if typeof(t) == 'table' then
+        return t
+    end
+
+    return {t}
+end
+function client_remote_metatable.fire_server<T>(self: t_event<T>, arg: T)
+    local write_fn = self.schema.write
+    local fn = if self.type == constants.EVENT_TYPE.RELIABLE then client_lifecycle.send_reliable_packet else client_lifecycle.send_unreliable_packet;
+
+    (fn::never)(self.id, write_fn, arg)
+end
+
+client_remote_metatable.wait = wait
+client_remote_metatable.connect = connect
+
+table.freeze(client_remote_metatable)
+
+function client_function_metatable.invoke<T, R>(self: t_fn<T, R>, arg: T): (boolean,R)
+    local write_fn = self.schema.write
+    local read_fn = self.schema_out.read
+
+    return client_lifecycle.invoke_request(self.id, write_fn, read_fn, arg)
+end
+
+table.freeze(client_function_metatable)
+
+function server_remote_metatable.fire_client<T>(
+    self: t_event<T>,
+    plr: Player | {Player},
+    arg: T
+): ()
+    local plr = to_player_table(plr)
+    local write_fn = self.schema.write
+    local fn = if self.type == constants.EVENT_TYPE.RELIABLE then server_lifecycle.send_reliable_packet else server_lifecycle.send_reliable_packet
+
+    for i = 1, #plr do
+        (fn::never)(plr[i], self.id, write_fn, arg)
+    end
+end
+function server_remote_metatable.fire_all<T>(self: t_event<T>, arg: T): ()
+    local plr = Players:GetPlayers()
+    local write_fn = self.schema.write
+    local fn = if self.type == constants.EVENT_TYPE.RELIABLE then server_lifecycle.send_reliable_packet else server_lifecycle.send_reliable_packet
+
+    for i = 1, #plr do
+        (fn::never)(plr[i], self.id, write_fn, arg)
+    end
+end
+
+server_remote_metatable.wait = wait
+server_remote_metatable.connect = connect
+
+table.freeze(server_remote_metatable)
+
+function server_function_metatable.set_callback<T, R>(
+    self: t_fn<T, R>,
+    cb: (arg:T, plr:Player?) -> R
+)
+    if (self.callback) then
+        error('CALLBACK FN ALREADY EXISTS!')
+    end
+
+    print('callback set')
+
+    self.callback = cb
+end
+
+table.freeze(server_function_metatable)
+
+return table.freeze{
+    client_remote_metatable = client_remote_metatable,
+    client_function_metatable = client_function_metatable,
+    server_remote_metatable = server_remote_metatable,
+    server_function_metatable = server_function_metatable,
+}
+]]></ProtectedString>
+						<string name="ScriptGuid">{3a943585-dd58-40c9-a434-ff0ee914c4e0}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">metatables</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b67</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXc7f4be620bbc41849f278a51df8c1efc">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<ProtectedString name="Source"><![CDATA[local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
+local fire_listeners = require(script.Parent:WaitForChild('fire-listeners'))
+local remotes = require(script.Parent:WaitForChild('remotes'))
+local from = buffer_writer.from
+
+@native
+function read_iter(reader_prop: string, b: buffer, refs: {unknown}?)
+    local cursor = 0
+    local totalLen = buffer.len(b)
+    local sb = from(b)
+
+    sb.references = refs or {}
+
+    return function()
+        if cursor >= totalLen then
+            return
+        end
+
+        local rid = buffer.readu8(b, cursor)
+        local remo = remotes[rid]
+
+        cursor += 1
+
+        local value, nc = remo[reader_prop].read(sb, cursor)
+
+        cursor += nc
+
+        return rid, value
+    end
+end
+
+return (read_iter::never)::<T...>(reader_prop:string, b:buffer, refs:{unknown}?) -> () -> (number,any)
+]]></ProtectedString>
+						<string name="ScriptGuid">{c73fdbd3-2060-413e-b3ab-de971523a631}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">read-iter</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b68</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXba43b61b3504446c90d1aaf6b6309542">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[local Players = game:GetService('Players')
+local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
 local fire_listeners = require(script.Parent:WaitForChild('fire-listeners'))
 local remotes = require(script.Parent:WaitForChild('remotes'))
 local from = buffer_writer.from
@@ -1729,17 +1596,13 @@ function(b: buffer, refs: {unknown}?, plr: Player?)
 
         cursor += nc
 
-        if remo.listeners ~= nil then
-            if plr then
-                fire_listeners(remo.listeners, plr, value)
-            else
-                fire_listeners(remo.listeners, value)
-            end
+        if remo.kind == 'event' and remo.listeners ~= nil then
+            fire_listeners(remo.listeners, value, plr)
         end
     end
 end
 ]]></ProtectedString>
-						<string name="ScriptGuid">{13f384b2-4bf4-49d5-86ed-6876bb5be7eb}</string>
+						<string name="ScriptGuid">{7f6f6110-ed8d-4518-a5bb-2f314c486b02}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -1747,45 +1610,26 @@ end
 						<string name="Name">read</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002227</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b69</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXad5bd388331144f483e67f050dcebfa0">
-					<Properties>
-						<Content name="LinkedSource"><null></null></Content>
-						<ProtectedString name="Source"><![CDATA[local types = require(script.Parent:WaitForChild('types'))
-
-type reflist = {types.t_event<any>&types.t_fn<any, any>}
-
-local refs: reflist = {}
-
-return refs
-]]></ProtectedString>
-						<string name="ScriptGuid">{de6b90a7-80cf-4839-b2d4-e50e2b99adc4}</string>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<string name="Name">remotes</string>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002228</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBX77c346fb506b490db21a68231eeaca48">
+				<Item class="ModuleScript" referent="RBX2fb11bedea214ae58c3895aa5d3b0578">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<ProtectedString name="Source"><![CDATA[local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
 local alloc = buffer_writer.alloc
+local dyn_alloc = buffer_writer.dyn_alloc
 local u8 = buffer_writer.u8
 local u16 = buffer_writer.u16
 local u32 = buffer_writer.u32
 local i8 = buffer_writer.i8
 local i16 = buffer_writer.i16
 local i32 = buffer_writer.i32
+local f32 = buffer_writer.f32
 local btrue = buffer_writer.btrue
 local bfalse = buffer_writer.bfalse
 local reference = buffer_writer.reference
+local writestring = buffer_writer.writestring
 
 export type serdes_data<T> = {read: (buff:buffer_writer.buffer_writer, cursor:number) -> (T,number), write: (buff:buffer_writer.buffer_writer, v:T) -> ()}
 
@@ -2078,6 +1922,175 @@ do
         return data
     end
 end
+do
+    local bor = bit32.bor
+    local data: serdes_data<vector> = {
+        read = function(b, cursor)
+            local c = cursor
+            local x = buffer.readi16(b.buff, c)
+
+            c += 2
+
+            local y = buffer.readi16(b.buff, c)
+
+            c += 2
+
+            local z = buffer.readi16(b.buff, c)
+
+            c += 2
+
+            return vector.create(x, y, z), c - cursor
+        end,
+        write = function(b, v)
+            alloc(b, 6)
+            i16(b, bor(v.x, 0))
+            i16(b, bor(v.y, 0))
+            i16(b, bor(v.z or 0, 0))
+        end,
+    }
+
+    function VECI16()
+        return data
+    end
+end
+do
+    local bor = bit32.bor
+    local data: serdes_data<vector> = {
+        read = function(b, cursor)
+            local c = cursor
+            local x = buffer.readi32(b.buff, c)
+
+            c += 4
+
+            local y = buffer.readi32(b.buff, c)
+
+            c += 4
+
+            local z = buffer.readi32(b.buff, c)
+
+            c += 4
+
+            return vector.create(x, y, z), c - cursor
+        end,
+        write = function(b, v)
+            alloc(b, 12)
+            i32(b, bor(v.x, 0))
+            i32(b, bor(v.y, 0))
+            i32(b, bor(v.z or 0, 0))
+        end,
+    }
+
+    function VECI32()
+        return data
+    end
+end
+do
+    local data: serdes_data<vector> = {
+        read = function(b, cursor)
+            local c = cursor
+            local x = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local y = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local z = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            return vector.create(x, y, z), c - cursor
+        end,
+        write = function(b, v)
+            alloc(b, 12)
+            f32(b, v.x)
+            f32(b, v.y)
+            f32(b, v.z or 0)
+        end,
+    }
+
+    function VECF32()
+        return data
+    end
+end
+do
+    local data: serdes_data<CFrame> = {
+        read = function(b, cursor)
+            local c = cursor
+            local x = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local y = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local z = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local rx = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local ry = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            local rz = buffer.readf32(b.buff, c)
+
+            c += 4
+
+            return CFrame.Angles(rx, ry, rz) + Vector3.new(x, y, z), c - cursor
+        end,
+        write = function(b, v)
+            local unit, rot = v:ToAxisAngle()
+
+            unit *= rot
+
+            alloc(b, 24)
+            f32(b, v.x)
+            f32(b, v.y)
+            f32(b, v.z)
+            f32(b, unit.x)
+            f32(b, unit.y)
+            f32(b, unit.z)
+        end,
+    }
+
+    function CFRAME()
+        return data
+    end
+end
+do
+    local data: serdes_data<string> = {
+        read = function(b, cursor)
+            local c = cursor
+            local len = buffer.readu16(b.buff, c)
+
+            c += 2
+
+            local str = buffer.readstring(b.buff, c, len)
+
+            c += len
+
+            return str, c - cursor
+        end,
+        write = function(b, v)
+            local len = #v
+
+            alloc(b, 2)
+            u16(b, len)
+            dyn_alloc(b, len)
+            writestring(b, v)
+        end,
+    }
+
+    function STRING()
+        return data
+    end
+end
 
 return table.freeze({
     REF = (S_REF()::never)::any,
@@ -2088,7 +2101,11 @@ return table.freeze({
     I16 = (S_I16()::never)::number,
     U32 = (S_U32()::never)::number,
     I32 = (S_I32()::never)::number,
-    TUPLE = (S_TUPLE::never)::<T...>(T...) -> T...,
+    VECI16 = (VECI16()::never)::vector,
+    VECI32 = (VECI32()::never)::vector,
+    VECF32 = (VECF32()::never)::vector,
+    STRING = (STRING()::never)::string,
+    CFRAME = (CFRAME()::never)::CFrame,
     ARRAY = (S_ARRAY::never)::<T>(T) -> {T},
     STRUCT = (S_STRUCT::never)::<T>(T) -> T,
     OPTIONAL = (S_OPTIONAL::never)::<T>(T) -> T?,
@@ -2100,7 +2117,7 @@ return table.freeze({
     end,
 })
 ]]></ProtectedString>
-						<string name="ScriptGuid">{4acb1044-57c4-40fd-b8a0-e300d9e0e856}</string>
+						<string name="ScriptGuid">{962392dc-da57-4ed1-a115-51f8bd69417f}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -2108,15 +2125,17 @@ return table.freeze({
 						<string name="Name">serdes</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400002229</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6a</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBX40f76464fd87462a82b63f86bf8a9134">
+				<Item class="ModuleScript" referent="RBX548c9c33db28423a8e1983f4ebb6f726">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
 						<ProtectedString name="Source"><![CDATA[local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService('RunService')
+local remotes = require(script.Parent:WaitForChild('remotes'))
+local read_iter = require(script.Parent:WaitForChild('read-iter'))
 local read = require(script.Parent:WaitForChild('read'))
 local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
 local alloc = buffer_writer.alloc
@@ -2179,6 +2198,31 @@ function start()
     local remote_fn = Instance.new('RemoteFunction')
 
     remote_fn.Name = '.remote_fn'
+    remote_fn.OnServerInvoke = function(plr, b, ref)
+        for nid, val in read_iter('schema', b)do
+            if (remotes[nid] == nil or remotes[nid].kind ~= 'function') then
+                return false, 0
+            end
+
+            local success, res = pcall(remotes[nid].callback, val, plr)
+
+            if (not success) then
+                warn(res)
+
+                return false, 1
+            end
+
+            local buf = create_super()
+
+            remotes[nid].schema_out.write(buf, res)
+
+            local r, refs = dump(buf)
+
+            return true, r, refs
+        end
+
+        return false, 2
+    end
 
     reliable.OnServerEvent:Connect(function(plr: Player, b, r)
         read(b, r, plr)
@@ -2229,7 +2273,7 @@ return {
     send_unreliable_packet = send_unreliable_packet,
 }
 ]]></ProtectedString>
-						<string name="ScriptGuid">{881f6f61-cc55-45db-a80f-043ef8aa8843}</string>
+						<string name="ScriptGuid">{e24f7431-ce4e-4d24-9f7d-161e73f63a5b}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -2237,23 +2281,17 @@ return {
 						<string name="Name">server-lifecycle</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000222a</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6b</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBXc79c1248a2a94114af4556e2213e645c">
+				<Item class="ModuleScript" referent="RBX859a668154b742f5a025268f44b092ba">
 					<Properties>
 						<Content name="LinkedSource"><null></null></Content>
-						<ProtectedString name="Source"><![CDATA[local serdes = require(script.Parent:WaitForChild('serdes'))
-
-export type ev_mt<T> = {fire_client: (self:t_event<T>, plr:Player, arg:T) -> (), fire_server: (self:t_event<T>, arg:T) -> (), fire_all: (self:t_event<T>, arg:T) -> (), connect_client: (self:t_event<T>, cb:(arg:T) -> ()) -> () -> (), connect_server: (self:t_event<T>, cb:(plr:Player, arg:T) -> ()) -> () -> ()}
-export type fn_mt<T, R...> = {invoke: (self:t_fn<T, R...>, arg:T) -> R..., set_callback: (self:t_fn<T, R...>, cb:(plr:Player, arg:T) -> R...) -> ()}
-export type fn_listener = () -> ()
-export type t_event<T> = {listeners: {fn_listener}, schema: serdes.serdes_data<T>, type: number, id: number}&ev_mt<T>
-export type t_fn<T, R...> = {schema: serdes.serdes_data<T>, schema_out: serdes.serdes_data<{any}>, id: number}&fn_mt<T, R...>
+						<ProtectedString name="Source"><![CDATA[export type fn_listener = {fn: () -> (), once: boolean?}
 
 return nil
 ]]></ProtectedString>
-						<string name="ScriptGuid">{044798aa-f5e5-437a-a105-db974c54c602}</string>
+						<string name="ScriptGuid">{1536ce40-1d7c-473f-a72d-6daee63916f5}</string>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
@@ -2261,7 +2299,334 @@ return nil
 						<string name="Name">types</string>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">2ed5dce980b62c8909dc75940000222b</UniqueId>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6c</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX5ab127fa2917454e80f907ed1effe3ff">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[export type buffer_writer = {size: number, cursor: number, references: {unknown}, buff: buffer}
+
+function create(): buffer_writer
+    return {
+        size = 12,
+        references = {},
+        buff = buffer.create(12),
+        cursor = 0,
+    }
+end
+function from(b: buffer)
+    local len = buffer.len(b)
+    local nb: buffer_writer = {
+        buff = buffer.create(len),
+        size = len,
+        cursor = 0,
+        references = {},
+    }
+
+    buffer.copy(nb.buff, 0, b)
+
+    return nb
+end
+function alloc(buf: buffer_writer, bytes: number)
+    if not (buf.cursor + bytes >= buf.size) then
+        return
+    end
+
+    buf.size = math.floor(buf.size * 1.5)
+
+    local newBuffer = buffer.create(buf.size)
+
+    buffer.copy(newBuffer, 0, buf.buff)
+
+    buf.buff = newBuffer
+end
+function dyn_alloc(buf: buffer_writer, bytes: number)
+    while buf.cursor + bytes > buf.size do
+        buf.size = math.floor(buf.size * 1.5)
+    end
+
+    local newBuffer = buffer.create(buf.size)
+
+    buffer.copy(newBuffer, 0, buf.buff)
+
+    buf.buff = newBuffer
+end
+function u8(buf: buffer_writer, value: number)
+    buffer.writeu8(buf.buff, buf.cursor, value)
+
+    buf.cursor += 1
+end
+function i8(buf: buffer_writer, value: number)
+    buffer.writei8(buf.buff, buf.cursor, value)
+
+    buf.cursor += 1
+end
+function reference(buf: buffer_writer, value: any)
+    table.insert(buf.references, value)
+
+    local index = #buf.references
+
+    buffer.writeu8(buf.buff, buf.cursor, index)
+
+    buf.cursor += 1
+end
+function u16(buf: buffer_writer, value: number)
+    buffer.writeu16(buf.buff, buf.cursor, value)
+
+    buf.cursor += 2
+end
+function i16(buf: buffer_writer, value: number)
+    buffer.writeu16(buf.buff, buf.cursor, value)
+
+    buf.cursor += 2
+end
+function u32(buf: buffer_writer, value: number)
+    buffer.writeu32(buf.buff, buf.cursor, value)
+
+    buf.cursor += 4
+end
+function writestring(buf: buffer_writer, value: string)
+    buffer.writestring(buf.buff, buf.cursor, value)
+
+    buf.cursor += string.len(value)
+end
+function i32(buf: buffer_writer, value: number)
+    buffer.writei32(buf.buff, buf.cursor, value)
+
+    buf.cursor += 4
+end
+function f32(buf: buffer_writer, value: number)
+    buffer.writef32(buf.buff, buf.cursor, value)
+
+    buf.cursor += 4
+end
+function f64(buf: buffer_writer, value: number)
+    buffer.writef64(buf.buff, buf.cursor, value)
+
+    buf.cursor += 8
+end
+function copy(buf: buffer_writer, value)
+    buffer.copy(buf.buff, buf.cursor, value)
+
+    buf.cursor += buffer.len(value)
+end
+function btrue(buf: buffer_writer)
+    buffer.writeu8(buf.buff, buf.cursor, 1)
+
+    buf.cursor += 1
+end
+function bfalse(buf: buffer_writer)
+    buffer.writeu8(buf.buff, buf.cursor, 0)
+
+    buf.cursor += 1
+end
+
+return table.freeze({
+    create = create,
+    alloc = alloc,
+    u8 = u8,
+    i8 = i8,
+    u16 = u16,
+    i16 = i16,
+    u32 = u32,
+    i32 = i32,
+    f32 = f32,
+    f64 = f64,
+    copy = copy,
+    btrue = btrue,
+    bfalse = bfalse,
+    reference = reference,
+    writestring = writestring,
+    dyn_alloc = dyn_alloc,
+    from = from,
+})
+]]></ProtectedString>
+						<string name="ScriptGuid">{1cd260c5-b9e7-41b3-8ae3-5234dccdc911}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">buffer-writer</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6d</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX89c1121c31f24b3ea8d240469b577713">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[local EVENT_TYPE = table.freeze({
+    RELIABLE = 0,
+    UNRELIABLE = 1,
+})
+local FUNCTION_STATUS = table.freeze({
+    IN_PROGRESS = 2,
+    PASS = 1,
+    FAIL = 0,
+})
+
+return {
+    EVENT_TYPE = EVENT_TYPE,
+    FUNCTION_STATUS = FUNCTION_STATUS,
+}
+]]></ProtectedString>
+						<string name="ScriptGuid">{ce2676a6-4998-40fe-b736-749ede407d9b}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">constants</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6e</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX5c5f14a6b7024aacbe4fe75a233b6642">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[local buffer_writer = require(script.Parent:WaitForChild('buffer-writer'))
+
+return @native
+function(b: buffer_writer.buffer_writer): (buffer,{unknown}?)
+    local cursor = b.cursor
+    local dumpBuffer = buffer.create(cursor)
+
+    buffer.copy(dumpBuffer, 0, b.buff, 0, cursor)
+
+    return dumpBuffer, if#b.references > 0 then b.references else nil
+end
+]]></ProtectedString>
+						<string name="ScriptGuid">{2b5fe79c-9401-4f28-8789-43f6f70fbced}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">dump</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b6f</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX190479396cc2440a9568c84f5722e19b">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[type reflist = {any}
+
+local refs: reflist = {}
+
+return refs
+]]></ProtectedString>
+						<string name="ScriptGuid">{9646415d-17b1-4462-86cd-8168eb2cf56d}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">remotes</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b70</UniqueId>
+					</Properties>
+				</Item>
+			</Item>
+			<Item class="Folder" referent="RBX8bc8acc18b974db99f24900a3bea0b9d">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">RM_LATER_network_test</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b71</UniqueId>
+				</Properties>
+				<Item class="Script" referent="RBX25b6b2f4c24a4fa0bdc57c4406a737ec">
+					<Properties>
+						<ProtectedString name="Source"><![CDATA[local network_objs = require(script.Parent:WaitForChild('network.objs'))
+
+warn('INIT SERVER', getmetatable(network_objs.test), network_objs.test)
+network_objs.test:set_callback(function(arg, plr: Player?)
+    warn'INIT CALLBACK'
+    task.wait(3)
+    print('rec', arg)
+
+    return math.random(0, 1) == 1
+end)
+]]></ProtectedString>
+						<bool name="Disabled">false</bool>
+						<Content name="LinkedSource"><null></null></Content>
+						<token name="RunContext">1</token>
+						<string name="ScriptGuid">{72700ed1-b2d4-46ea-8f65-3a4ccc72b4a0}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">network-t</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b72</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="Script" referent="RBXbfd155bc40ca4bc795c965eb9fe8ecb1">
+					<Properties>
+						<ProtectedString name="Source"><![CDATA[local RunService = game:GetService('RunService')
+local network_objs = require(script.Parent:WaitForChild('network.objs'))
+
+while RunService:IsRunning() do
+    local s, res = network_objs.test:invoke({
+        age = 4,
+        pos = vector.create(25.111, -10000.315135, 3000000),
+        pos2 = vector.create(25.1351, 10000, -3E6),
+        pos3 = vector.create(-1.195315091, 10000.123859139898, 3000000.1395813897),
+        cf = CFrame.lookAlong(Vector3.one, Vector3.new(1, 0, 1).Unit),
+        name = 'my lil dota',
+        random_numbers = {17, 38},
+    })
+
+    print('FN R', res)
+end
+]]></ProtectedString>
+						<bool name="Disabled">false</bool>
+						<Content name="LinkedSource"><null></null></Content>
+						<token name="RunContext">2</token>
+						<string name="ScriptGuid">{4412700d-0e46-4411-9522-771af0b799cb}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">network-tc</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b73</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXf18d89144c554a9e92c3b6d3beb3286d">
+					<Properties>
+						<Content name="LinkedSource"><null></null></Content>
+						<ProtectedString name="Source"><![CDATA[local sendbufs = require(script.Parent.Parent:WaitForChild('sendbufs'))
+
+return {
+    test = sendbufs.create_request((sendbufs.schema.STRUCT({
+        name = sendbufs.schema.STRING,
+        pos = sendbufs.schema.VECI16,
+        pos2 = sendbufs.schema.VECI32,
+        pos3 = sendbufs.schema.VECF32,
+        cf = sendbufs.schema.CFRAME,
+        age = sendbufs.schema.U8,
+        random_numbers = sendbufs.schema.ARRAY(sendbufs.schema.U8),
+        maybe = sendbufs.schema.OPTIONAL(sendbufs.schema.BOOL),
+    })), sendbufs.schema.BOOL),
+}
+]]></ProtectedString>
+						<string name="ScriptGuid">{990b9d7f-b601-4f4f-bce3-a4f13dde3293}</string>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<string name="Name">network.objs</string>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">64b4e80451f61a6609dd15b600002b74</UniqueId>
 					</Properties>
 				</Item>
 			</Item>
@@ -2439,9 +2804,12 @@ return {
 			<bool name="Outlines">false</bool>
 			<bool name="PrioritizeLightingQuality">false</bool>
 			<float name="ShadowSoftness">0.5</float>
-			<token name="Technology">2</token>
+			<token name="Technology">1</token>
 			<string name="TimeOfDay">14:00:00</string>
-			<BinaryString name="AttributesSerialize">AQAAACYAAABSQlhfTGlnaHRpbmdUZWNobm9sb2d5VW5pZmllZE1pZ3JhdGlvbgMB</BinaryString>
+			<BinaryString name="AttributesSerialize"><![CDATA[BQAAABQAAABSQlhfQmFja3VwQnJpZ2h0bmVzcwUAAABAHgAAAFJCWF9CYWNrdXBFeHBvc3Vy
+ZUNvbXBlbnNhdGlvbgUAAAAAIQAAAFJCWF9MaWdodGluZ0NvbXBhdGliaWxpdHlNaWdyYXRl
+ZAMBJgAAAFJCWF9MaWdodGluZ1RlY2hub2xvZ3lVbmlmaWVkTWlncmF0aW9uAwEgAAAAUkJY
+X09yaWdpbmFsVGVjaG5vbG9neU9uRmlsZUxvYWQEAgAAAA==]]></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 			<bool name="DefinesCapabilities">false</bool>
 			<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
@@ -2450,6 +2818,36 @@ return {
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">2ed5dce980b62c8909dc759400000449</UniqueId>
 		</Properties>
+		<Item class="ColorGradingEffect" referent="RBX0c22414a89c84b708c71a9735874522d">
+			<Properties>
+				<token name="TonemapperPreset">1</token>
+				<bool name="Enabled">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<string name="Name">ColorGrading</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">64b4e80451f61a6609dd15b6000003b3</UniqueId>
+			</Properties>
+		</Item>
+		<Item class="BloomEffect" referent="RBX413c30845ed043d08690016ff56a8e47">
+			<Properties>
+				<float name="Intensity">0</float>
+				<float name="Size">24</float>
+				<float name="Threshold">0.949999988</float>
+				<bool name="Enabled">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<string name="Name">Bloom</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">64b4e80451f61a6609dd15b6000003b4</UniqueId>
+			</Properties>
+		</Item>
 	</Item>
 	<Item class="VideoService" referent="RBX0afe24711ff3425bb099d49627ec68df">
 		<Properties>
