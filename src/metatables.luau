@@ -20,7 +20,7 @@ client_function_metatable.__index = client_function_metatable;
 type event_comb_mt<T> = {
 	__index: event_comb_mt<T>,
 	connect: (self:t_event<T>, callback:(T,plr:Player?)->(),once:boolean?)->()->(),
-	wait: ()->T,
+	wait: ()->(T,Player?),
 	fire_client: (self:t_event<T>,plr:Player|{Player},arg:T)->(),
 	fire_all: (self:t_event<T>,arg:T)->(),
 	fire_server: (self:t_event<T>,arg:T)->(),
@@ -61,7 +61,7 @@ function connect_listener(listeners: { types.fn_listener }, fn: (...any) -> (),o
 		end
 end
 
-function wait<T>(self:t_event<T>): T
+function wait<T>(self:t_event<T>,plr:Player?): T
     local coro = coroutine.running();
     connect_listener(self.listeners,function(...)
         task.defer(coro,...)
