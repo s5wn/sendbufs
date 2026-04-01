@@ -270,6 +270,19 @@ do
 	end
 end
 
+do
+	local data: serdes_data<nil> = {
+		read = function()
+			return nil,0
+		end,
+		write = function()
+		end,
+	}
+	function S_NONE()
+		return data
+	end
+end
+
 do 
 	local bor = bit32.bor;
 	local data: serdes_data<vector> = {
@@ -399,6 +412,7 @@ end
 
 
 return table.freeze({
+	NONE = (S_NONE()::never)::nil,
 	REF = (S_REF() :: never) :: any,
 	BOOL = (S_BOOL() :: never) :: boolean,
 	U8 = (S_U8() :: never) :: number,
@@ -415,10 +429,4 @@ return table.freeze({
 	ARRAY = (S_ARRAY :: never) :: <T>(T) -> { T },
 	STRUCT = (S_STRUCT :: never) :: <T>(T) -> T,
 	OPTIONAL = (S_OPTIONAL :: never) :: <T>(T) -> T?,
-	__TO_SERDES = function<T>(t: T): serdes_data<T>
-		return t :: never
-	end,
-	__PACK_TUPLE = function<T>(...: T): serdes_data<{ any }>
-		return ... :: never
-	end,
 })
