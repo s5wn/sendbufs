@@ -9,12 +9,14 @@ local added: {[number]:{middleware_fn}} = {}
 function middleware<T,R>(net:any, fn:middleware_fn)
     local array = added[net.id] or {};
     table.insert(array,fn);
+    added[net.id] = array;
 end
 
 function global_middleware(fn:middleware_fn)
     for r in remotes do
         local array = added[r] or {};
         table.insert(array,fn);
+        added[r] = array;
     end
 end
 

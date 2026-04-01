@@ -61,13 +61,16 @@ function connect_listener(listeners: { types.fn_listener }, fn: (...any) -> (),o
 		end
 end
 
-function wait<T>(self:t_event<T>,plr:Player?): T
+function wait<T>(self:t_event<T>): (T,Player?)
     local coro = coroutine.running();
+	local data,plr;
     connect_listener(self.listeners,function(...)
-        task.defer(coro,...)
+		data,plr = ...
+        task.defer(coro);
     end,true);
     coroutine.yield();
-    return nil :: never;
+	
+    return data,plr;
 end
 function connect<T>(self:t_event<T>, callback:(T)->(),once:boolean?)
     return connect_listener(self.listeners,callback,once);

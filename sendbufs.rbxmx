@@ -444,7 +444,7 @@ local client_function_metatable = {}
 
 client_function_metatable.__index = client_function_metatable
 
-type event_comb_mt<T> = {__index: event_comb_mt<T>, connect: (self:t_event<T>, callback:(T, plr:Player?) -> (), once:boolean?) -> () -> (), wait: () -> T, fire_client: (self:t_event<T>, plr:Player | {Player}, arg:T) -> (), fire_all: (self:t_event<T>, arg:T) -> (), fire_server: (self:t_event<T>, arg:T) -> ()}
+type event_comb_mt<T> = {__index: event_comb_mt<T>, connect: (self:t_event<T>, callback:(T, plr:Player?) -> (), once:boolean?) -> () -> (), wait: () -> (T,Player?), fire_client: (self:t_event<T>, plr:Player | {Player}, arg:T) -> (), fire_all: (self:t_event<T>, arg:T) -> (), fire_server: (self:t_event<T>, arg:T) -> ()}
 type fn_comb_mt<T, R> = {__index: fn_comb_mt<T, R>, invoke: (self:t_fn<T, R>, input:T) -> (boolean,R), set_callback: (self:t_fn<T, R>, cb:(T, plr:Player) -> R) -> ()}
 export type t_event<T> = typeof(setmetatable({}::{kind: 'event', listeners: {types.fn_listener}, schema: serdes.serdes_data<T>, type: number, id: number}, ((RunService.IsServer() and server_remote_metatable or client_remote_metatable)::never)::event_comb_mt<T>))
 export type t_fn<T, R> = typeof(setmetatable({}::{kind: 'function', callback: ((arg:T, plr:Player?) -> R)?, schema: serdes.serdes_data<T>, schema_out: serdes.serdes_data<{any}>, id: number}, ((RunService.IsServer() and server_function_metatable or client_function_metatable)::never)::fn_comb_mt<T, R>))
@@ -465,15 +465,18 @@ function connect_listener(listeners: {types.fn_listener}, fn: (...any) -> (), on
         end
     end
 end
-function wait<T>(self: t_event<T>): T
+function wait<T>(self: t_event<T>): (T,Player?)
     local coro = coroutine.running()
+    local data, plr
 
     connect_listener(self.listeners, function(...)
-        task.defer(coro, ...)
+        data, plr = ...
+
+        task.defer(coro)
     end, true)
     coroutine.yield()
 
-    return nil::never
+    return data, plr
 end
 function connect<T>(self: t_event<T>, callback: (T) -> (), once: boolean?)
     return connect_listener(self.listeners, callback, once)
@@ -570,12 +573,16 @@ function middleware<T, R>(net: any, fn: middleware_fn)
     local array = added[net.id] or {}
 
     table.insert(array, fn)
+
+    added[net.id] = array
 end
 function global_middleware(fn: middleware_fn)
     for r in remotes do
         local array = added[r] or {}
 
         table.insert(array, fn)
+
+        added[r] = array
     end
 end
 function run_middleware_for(
@@ -1378,7 +1385,11 @@ return nil
       <Properties>
         <string name="Name">validate-buffer</string>
         <string name="Source"><![CDATA[return function(b: any, refs: {unknown}?)
-    return typeof(b) == 'buffer' and buffer.len(b) > 0 and (refs and typeof(refs) == 'table')
+    if (refs and typeof(refs) ~= 'table') then
+        return false
+    end
+
+    return typeof(b) == 'buffer' and buffer.len(b) > 0
 end
 ]]></string>
       </Properties>
