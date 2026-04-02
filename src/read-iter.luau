@@ -1,27 +1,28 @@
+const buffer_writer = require("./buffer-writer")
 
-local buffer_writer = require("./buffer-writer")
-local fire_listeners = require("./fire-listeners")
-local remotes = require("./remotes")
+const remotes = require("./remotes")
 
-local from = buffer_writer.from
+const from = buffer_writer.from
 
-@native function read_iter(reader_prop:string,b: buffer, refs: { unknown }?)
+@native
+function read_iter(reader_prop: "schema" | "schema_out", b: buffer, refs: { unknown }?)
 	local cursor = 0
-	local totalLen = buffer.len(b)
-	local sb = from(b)
+	const totalLen = buffer.len(b)
+	const sb = from(b)
 	sb.references = refs or {}
 	return function()
 		if cursor >= totalLen then
 			return
 		end
-		local rid = buffer.readu8(b, cursor)
-		local remo = remotes[rid];
+		const rid = buffer.readu8(b, cursor)
+		const remo = remotes[rid]
 		cursor += 1
-		local value, nc = remo[reader_prop].read(sb, cursor)
+		const value, nc = remo[reader_prop].read(sb, cursor)
 		cursor += nc
-		return rid,value;
+		return rid, value
 	end
-end 
+end
 
-
-return (read_iter::never) :: <T...>(reader_prop:string,b:buffer,refs:{unknown}?) -> () -> (number,any)
+return (
+	read_iter :: never
+) :: <T...>(reader_prop: "schema" | "schema_out", b: buffer, refs: { unknown }?) -> () -> (number, any)

@@ -1,150 +1,124 @@
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
+const Players = game:GetService("Players")
 
-local client_lifecycle = require("./client-lifecycle")
-local server_lifecycle = require("./server-lifecycle")
+const client_lifecycle = require("./client-lifecycle")
+const server_lifecycle = require("./server-lifecycle")
 
-local types = require("./types")
-local serdes = require("./serdes")
-local constants = require("./constants");
+const types = require("./types")
 
-local client_remote_metatable = {};
-client_remote_metatable.__index = client_remote_metatable;
-local server_remote_metatable = {};
-server_remote_metatable.__index = server_remote_metatable;
-local server_function_metatable = {};
-server_function_metatable.__index = server_function_metatable;
-local client_function_metatable = {};
-client_function_metatable.__index = client_function_metatable;
+const constants = require("./constants")
 
-type event_comb_mt<T> = {
-	__index: event_comb_mt<T>,
-	connect: (self:t_event<T>, callback:(T,plr:Player?)->(),once:boolean?)->()->(),
-	wait: ()->(T,Player?),
-	fire_client: (self:t_event<T>,plr:Player|{Player},arg:T)->(),
-	fire_all: (self:t_event<T>,arg:T)->(),
-	fire_server: (self:t_event<T>,arg:T)->(),
-}
+const client_remote_metatable = {}
+client_remote_metatable.__index = client_remote_metatable
+const server_remote_metatable = {}
+server_remote_metatable.__index = server_remote_metatable
+const server_function_metatable = {}
+server_function_metatable.__index = server_function_metatable
+const client_function_metatable = {}
+client_function_metatable.__index = client_function_metatable
 
-type fn_comb_mt<T,R> = {
-	__index: fn_comb_mt<T,R>,
-	invoke: (self:t_fn<T,R>, input:T)->(boolean,R);
-	set_callback: (self:t_fn<T,R>, cb:(T,plr:Player)->R) -> (),
-}
+type t_event<T> = types.t_event<T>
+type t_fn<T, R> = types.t_fn<T, R>
 
-
-export type t_event<T> = typeof(setmetatable({}::{
-	kind:"event",
-	listeners: { types.fn_listener },
-	schema: serdes.serdes_data<T>,
-	type: number,
-	id: number,
-},((RunService.IsServer() and server_remote_metatable or client_remote_metatable)::never)::event_comb_mt<T>))
-
-export type t_fn<T, R> = typeof(setmetatable({}::{
-	kind:"function",
-	callback: ((arg:T,plr:Player?)->R)?,
-	schema: serdes.serdes_data<T>,
-	schema_out: serdes.serdes_data<{ any }>,
-	id: number,
-},((RunService.IsServer() and server_function_metatable or client_function_metatable)::never)::fn_comb_mt<T,R>))
-
-
-@native function connect_listener(listeners: { types.fn_listener }, fn: (...any) -> (),once:boolean?)
-        local t = {fn=fn,once=once};
-		table.insert(listeners, t)
-		return function()
-			local i = table.find(listeners, t)
-			if i ~= nil then
-				table.remove(listeners, i)
-			end
+@native
+function connect_listener(listeners: { types.fn_listener }, fn: (...any) -> (), once: boolean?)
+	const t = { fn = fn, once = once }
+	table.insert(listeners, t)
+	return function()
+		const i = table.find(listeners, t)
+		if i ~= nil then
+			table.remove(listeners, i)
 		end
+	end
 end
 
-@native function wait<T>(self:t_event<T>): (T,Player?)
-    local coro = coroutine.running();
-	local data,plr;
-    connect_listener(self.listeners,function(...)
-		data,plr = ...
-        task.defer(coro);
-    end,true);
-    coroutine.yield();
-	
-    return data,plr;
+@native
+function wait<T>(self: t_event<T>): (T, Player?)
+	const coro = coroutine.running()
+	local data, plr
+	connect_listener(self.listeners, function(...)
+		data, plr = ...
+		task.defer(coro)
+	end, true)
+	coroutine.yield()
+
+	return data, plr
 end
-@native function connect<T>(self:t_event<T>, callback:(T)->(),once:boolean?)
-    return connect_listener(self.listeners,callback,once);
+@native
+function connect<T>(self: t_event<T>, callback: (T) -> (), once: boolean?)
+	return connect_listener(self.listeners, callback, once)
 end
 
-@native function to_player_table(t: Player | { Player }): { Player }
+@native
+function to_player_table(t: Player | { Player }): { Player }
 	if typeof(t) == "table" then
 		return t
 	end
 	return { t }
 end
 
-
 --@client only!
-@native function client_remote_metatable.fire_server<T>(self:t_event<T>,arg:T)
-    local write_fn = self.schema.write;
-    local fn = if self.type == constants.EVENT_TYPE.RELIABLE
-			then client_lifecycle.send_reliable_packet
-			else client_lifecycle.send_unreliable_packet;
-    (fn :: never)(self.id, write_fn, arg);
+@native
+function client_remote_metatable.fire_server<T>(self: t_event<T>, arg: T)
+	const write_fn = self.schema.write
+	const fn = if self.type == constants.EVENT_TYPE.RELIABLE
+		then client_lifecycle.send_reliable_packet
+		else client_lifecycle.send_unreliable_packet;
+	(fn :: never)(self.id, write_fn, arg)
 end
-client_remote_metatable.wait = wait;
-client_remote_metatable.connect = connect;
+client_remote_metatable.wait = wait
+client_remote_metatable.connect = connect
 
-table.freeze(client_remote_metatable);
+table.freeze(client_remote_metatable)
 
-
-@native function client_function_metatable.invoke<T,R>(self:t_fn<T,R>, arg:T): (boolean,R)
-	local write_fn = self.schema.write;
-	local read_fn = self.schema_out.read;
-	return client_lifecycle.invoke_request(self.id, write_fn,read_fn,arg);
+@native
+function client_function_metatable.invoke<T, R>(self: t_fn<T, R>, arg: T): (boolean, R)
+	const write_fn = self.schema.write
+	const read_fn = self.schema_out.read
+	return client_lifecycle.invoke_request(self.id, write_fn, read_fn, arg)
 end
 
-
-table.freeze(client_function_metatable);
-
-
+table.freeze(client_function_metatable)
 
 -- server only!
-@native function server_remote_metatable.fire_client<T>(self: t_event<T>, plr: Player | { Player }, arg:T): ()
-		local plr = to_player_table(plr)
-		local write_fn = self.schema.write
-		local fn = if self.type == constants.EVENT_TYPE.RELIABLE then server_lifecycle.send_reliable_packet else server_lifecycle.send_reliable_packet
-		for i=1,#plr do
-			(fn :: never)(plr[i], self.id, write_fn, arg)
-		end
-end
-@native function server_remote_metatable.fire_all<T>(self: t_event<T>, arg:T): ()
-		local plr = Players:GetPlayers();
-		local write_fn = self.schema.write
-		local fn = if self.type == constants.EVENT_TYPE.RELIABLE then server_lifecycle.send_reliable_packet else server_lifecycle.send_reliable_packet
-		for i=1,#plr do
-			(fn :: never)(plr[i], self.id, write_fn, arg)
-		end
-end
-server_remote_metatable.wait = wait;
-server_remote_metatable.connect = connect;
-table.freeze(server_remote_metatable);
-
-@native function server_function_metatable.set_callback<T,R>(self:t_fn<T,R>,cb:(arg:T,plr:Player?)->R)
-	if (self.callback) then
-		error("CALLBACK FN ALREADY EXISTS!");
+@native
+function server_remote_metatable.fire_client<T>(self: t_event<T>, plr: Player | { Player }, arg: T): ()
+	const plr = to_player_table(plr)
+	const write_fn = self.schema.write
+	const fn = if self.type == constants.EVENT_TYPE.RELIABLE
+		then server_lifecycle.send_reliable_packet
+		else server_lifecycle.send_reliable_packet
+	for i = 1, #plr do
+		(fn :: never)(plr[i], self.id, write_fn, arg)
 	end
-	self.callback = cb;
+end
+@native
+function server_remote_metatable.fire_all<T>(self: t_event<T>, arg: T): ()
+	const plr = Players:GetPlayers()
+	const write_fn = self.schema.write
+	const fn = if self.type == constants.EVENT_TYPE.RELIABLE
+		then server_lifecycle.send_reliable_packet
+		else server_lifecycle.send_reliable_packet
+	for i = 1, #plr do
+		(fn :: never)(plr[i], self.id, write_fn, arg)
+	end
+end
+server_remote_metatable.wait = wait
+server_remote_metatable.connect = connect
+table.freeze(server_remote_metatable)
+
+@native
+function server_function_metatable.set_callback<T, R>(self: t_fn<T, R>, cb: (arg: T, plr: Player?) -> R)
+	if self.callback then
+		error("CALLBACK FN ALREADY EXISTS!")
+	end
+	self.callback = cb
 end
 
-table.freeze(server_function_metatable);
+table.freeze(server_function_metatable)
 
-
-
-
-return table.freeze{
-    client_remote_metatable=client_remote_metatable,
-    client_function_metatable=client_function_metatable,
-    server_remote_metatable=server_remote_metatable,
-    server_function_metatable=server_function_metatable,
-}
+return table.freeze({
+	client_remote_metatable = client_remote_metatable,
+	client_function_metatable = client_function_metatable,
+	server_remote_metatable = server_remote_metatable,
+	server_function_metatable = server_function_metatable,
+})

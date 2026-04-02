@@ -1,9 +1,6 @@
-export type buffer_writer = {
-	size: number,
-	cursor: number,
-	references: { unknown },
-	buff: buffer,
-}
+const types = require("./types")
+type buffer_writer = types.buffer_writer
+
 function create(): buffer_writer
 	return {
 		size = 12,
@@ -14,8 +11,8 @@ function create(): buffer_writer
 end
 
 function from(b: buffer)
-	local len = buffer.len(b)
-	local nb: buffer_writer = {
+	const len = buffer.len(b)
+	const nb: buffer_writer = {
 		buff = buffer.create(len),
 		size = len,
 		cursor = 0,
@@ -30,7 +27,7 @@ function alloc(buf: buffer_writer, bytes: number)
 		return
 	end
 	buf.size = math.floor(buf.size * 1.5)
-	local newBuffer = buffer.create(buf.size)
+	const newBuffer = buffer.create(buf.size)
 	buffer.copy(newBuffer, 0, buf.buff)
 	buf.buff = newBuffer
 end
@@ -38,7 +35,7 @@ function dyn_alloc(buf: buffer_writer, bytes: number)
 	while buf.cursor + bytes > buf.size do
 		buf.size = math.floor(buf.size * 1.5)
 	end
-	local newBuffer = buffer.create(buf.size)
+	const newBuffer = buffer.create(buf.size)
 	buffer.copy(newBuffer, 0, buf.buff)
 	buf.buff = newBuffer
 end
@@ -55,7 +52,7 @@ end
 
 function reference(buf: buffer_writer, value: any)
 	table.insert(buf.references, value)
-	local index = #buf.references
+	const index = #buf.references
 	buffer.writeu8(buf.buff, buf.cursor, index)
 	buf.cursor += 1
 end

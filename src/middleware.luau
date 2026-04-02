@@ -1,20 +1,20 @@
-local RunService = game:GetService("RunService")
+const RunService = game:GetService("RunService")
 
-local remotes = require("./remotes")
+const remotes = require("./remotes")
 
 type middleware_fn = (id:number,plr:Player,b:buffer,refs:{unknown}?)->boolean
 
-local added: {[number]:{middleware_fn}} = {}
+const added: {[number]:{middleware_fn}} = {}
 
 function middleware<T,R>(net:any, fn:middleware_fn)
-    local array = added[net.id] or {};
+    const array = added[net.id] or {};
     table.insert(array,fn);
     added[net.id] = array;
 end
 
 function global_middleware(fn:middleware_fn)
     for r in remotes do
-        local array = added[r] or {};
+        const array = added[r] or {};
         table.insert(array,fn);
         added[r] = array;
     end
@@ -24,7 +24,7 @@ function run_middleware_for(id:number,plr:Player,b:buffer,refs:{unknown}?)
     if (not RunService:IsServer()) then
         return true;
     end
-    local array = added[id];
+    const array = added[id];
     if not array then
         return true;
     end

@@ -1,32 +1,31 @@
-local fire_listeners = require("./fire-listeners")
-local template = "[sendbufs]: %s"
+const template = "[sendbufs]: %s"
 
-function white(...:string)
-    print(template:format(table.concat({...},", ")))
+function white(...: string)
+	print(template:format(table.concat({ ... }, ", ")))
 end
 
-function red(...:string)
-    error(template:format(table.concat({...},", ")))
+function red(...: string)
+	error(template:format(table.concat({ ... }, ", ")))
 end
 
-function orange(...:string)
-    warn(template:format(table.concat({...},", ")))
+function orange(...: string)
+	warn(template:format(table.concat({ ... }, ", ")))
 end
 
 function handler(err)
-   red(err) 
+	red(err)
 end
 
-function errorif(cond:boolean,...:string)
-    if (cond) then
-        red(...);
-    end
+function errorif(cond: boolean, ...: string)
+	if cond then
+		red(...)
+	end
 end
 
 return {
-    errorif=errorif,
-    white = white,
-    red = red,
-    orange = orange,
-    handler=handler,
+	errorif = errorif,
+	white = white,
+	red = red,
+	orange = orange,
+	handler = handler,
 }
