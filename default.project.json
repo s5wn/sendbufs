@@ -1,5 +1,7 @@
 {
-    "tree": {
-        "$path": "src"
-    }
+  "name": "sendbufs",
+  "emitLegacyScripts": false,
+  "tree": {
+    "$path": "src"
+  }
 }

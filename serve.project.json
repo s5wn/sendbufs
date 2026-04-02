@@ -1,7 +1,0 @@
-{
-  "name": "sendbufs",
-  "emitLegacyScripts": false,
-  "tree": {
-    "$path": "out"
-  }
-}

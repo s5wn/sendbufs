@@ -5,7 +5,7 @@ const serdes = require("@self/serdes")
 
 const is_server = RunService:IsServer()
 
-const server = require("@self/server-lifecycle.luau")
+const server = require("@self/server-lifecycle")
 const client = require("@self/client-lifecycle")
 const remotes = require("@self/remotes")
 const metatables = require("@self/metatables")
