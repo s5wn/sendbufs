@@ -1,5 +1,8 @@
 # sendbufs
 
+### Installation:
+Available on wally under `wobotomite/sendbufs` or as a model in releases!
+
 ### API:
 
 ### sendbufs.schema
